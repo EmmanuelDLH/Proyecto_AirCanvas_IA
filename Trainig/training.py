@@ -78,6 +78,22 @@ def PruebaPrediccion():
         ax.imshow(img)    
         
 
+def GraficoAcurracy():
+    plt.plot(history.history['accuracy'], label='accuracy')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.ylim([0.5, 1])
+    plt.legend(loc='lower right')
+
+
+def matrixConfusion():
+    CLASSES = np.array(Shapes)
+    preds = Modelo.predict(testX)
+    preds_single = CLASSES[np.argmax(preds, axis = -1)]
+    actual_single = CLASSES[np.argmax(testY, axis = -1)]
+    
+    matrix = confusion_matrix(preds_single, actual_single)
+    print(matrix)
 
 
 ###################### Empieza flujo 
@@ -106,7 +122,7 @@ opt = Adam(lr=0.0001) #El optimizador a usar sera ADAM
 Modelo.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
 
 # Se entrena el modelo mediante la función fit
-Modelo.fit(trainX
+history = Modelo.fit(trainX
           , trainY
           , batch_size= 90
           , epochs=10
@@ -115,8 +131,12 @@ Modelo.fit(trainX
 #Se guarda el modelo creado
 Modelo.save("modelTrained.h5");
 
+#matrixConfusion()
 
-PruebaPrediccion()
+#GraficoAcurracy()
+
+
+#PruebaPrediccion()
     
     
     
